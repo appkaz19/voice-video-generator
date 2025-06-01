@@ -6,3 +6,7 @@ numpy
 Pillow
 scipy
 transformers
+fastapi
+uvicorn
+celery
+redis
