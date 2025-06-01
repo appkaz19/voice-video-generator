@@ -3,7 +3,9 @@ import gradio as gr
 from tts.xtts_infer import generate_tts
 from face.sadtalker_infer import generate_video
 
+
 logging.basicConfig(level=logging.INFO)
+
 
 def generate_avatar_video(image, text, language, speaker_audio=None):
     tts_audio = generate_tts(text, speaker_audio, language)

@@ -1,5 +1,6 @@
 import subprocess
 import os
+
 import logging
 from utils.video_utils import merge_audio_video
 
@@ -12,6 +13,7 @@ def generate_video(input_image, input_audio, output_path="assets/output/result.m
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     sadtalker_path = os.path.join(sadtalker_root, "inference.py")
     command = [
+
         "python",
         sadtalker_path,
         "--driven_audio",
@@ -24,7 +26,14 @@ def generate_video(input_image, input_audio, output_path="assets/output/result.m
         "gfpgan",
         "--still",
         "--preprocess",
-        "full",
+
+        "python", sadtalker_path,
+        "--driven_audio", input_audio,
+        "--source_image", input_image,
+        "--result_dir", os.path.dirname(output_path),
+        "--enhancer", "gfpgan",
+        "--still", "--preprocess", "full"
+
     ]
 
     logger.info("Running SadTalker: %s", " ".join(command))
