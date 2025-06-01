@@ -6,3 +6,8 @@ numpy
 Pillow
 scipy
 transformers
+
+TTS
+moviepy
+opencv-python
+gfpgan

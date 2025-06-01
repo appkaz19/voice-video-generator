@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+assets/*
+!assets/.gitkeep
+!assets/output/
+!assets/output/.gitkeep
+*.wav
+*.mp4
