@@ -1,0 +1,8 @@
+gradio
+torch
+torchaudio
+ffmpeg-python
+numpy
+Pillow
+scipy
+transformers
