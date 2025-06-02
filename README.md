@@ -35,6 +35,29 @@ celery -A backend.tasks worker --loglevel=info
 uvicorn backend.api:app --reload
 ```
 
+## Эндпоинты API
+
+Доступные маршруты описаны в Swagger UI по адресу `/docs`.
+
+### POST `/generate`
+
+- **Параметры запроса**
+  - `image` – файл изображения лица
+  - `text` – текст для озвучивания
+  - `language` – код языка (`ru`, `en`, `es`, `de`, `fr`)
+  - `speaker_audio` – пример голоса (необязательно)
+  - заголовок `X-API-Key`, если задан `API_SECRET_KEY`
+- **Ответ**: `{"task_id": "UUID"}`
+
+### GET `/result/{task_id}`
+
+- **Параметры запроса**
+  - `task_id` – идентификатор задачи
+  - заголовок `X-API-Key`, если задан `API_SECRET_KEY`
+- **Ответ**:
+  - при завершении задачи – `{"status": "completed", "video_path": "<url>"}`
+  - иначе – `{"status": "<state>"}`
+
 ## Использование
 
 Отправьте POST запрос на `/generate` с форм-данными:
