@@ -20,4 +20,5 @@ iface = gr.Interface(
     description="Введите текст и фото — получите видео с анимированным говорящим лицом."
 )
 
-iface.launch()
+if __name__ == "__main__":
+    iface.launch()
