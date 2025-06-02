@@ -9,6 +9,11 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_BACKEND_URL=redis://redis:6379/0
+      - API_SECRET_KEY=${API_SECRET_KEY}
+      - S3_BUCKET=${S3_BUCKET}
+    volumes:
+      - ./models:/app/models
+      - ./assets:/app/assets
     depends_on:
       - redis
     ports:
@@ -19,5 +24,10 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_BACKEND_URL=redis://redis:6379/0
+      - API_SECRET_KEY=${API_SECRET_KEY}
+      - S3_BUCKET=${S3_BUCKET}
+    volumes:
+      - ./models:/app/models
+      - ./assets:/app/assets
     depends_on:
       - redis
