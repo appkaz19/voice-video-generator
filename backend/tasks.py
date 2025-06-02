@@ -4,6 +4,10 @@ from tts.sovits_infer import convert_voice
 from face.sadtalker_infer import generate_video
 from face.wav2lip_infer import enhance_lip_sync
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 import boto3
 import os
 
@@ -23,6 +27,7 @@ def generate_video_task(image_path: str, text: str, language: str, speaker_audio
     try:
         vc_audio = convert_voice(tts_audio, speaker)
     except Exception:
+        logging.exception("Voice conversion failed")
         vc_audio = tts_audio
 
     video_path = generate_video(image_path, vc_audio)
@@ -30,12 +35,19 @@ def generate_video_task(image_path: str, text: str, language: str, speaker_audio
     try:
         final_video = enhance_lip_sync(video_path, vc_audio)
     except Exception:
+        logging.exception("Lip sync enhancement failed")
         final_video = video_path
 
     if s3_client:
         key = os.path.basename(final_video)
-        s3_client.upload_file(final_video, s3_bucket, key)
-        url = f"https://{s3_bucket}.s3.amazonaws.com/{key}"
-        return url
+        try:
+            logging.info("Uploading %s to S3 bucket %s", final_video, s3_bucket)
+            s3_client.upload_file(final_video, s3_bucket, key)
+            url = f"https://{s3_bucket}.s3.amazonaws.com/{key}"
+            logging.info("File uploaded successfully: %s", url)
+            return url
+        except Exception:
+            logging.exception("Failed to upload file to S3")
+            return final_video
 
     return final_video
