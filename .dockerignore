@@ -1,3 +1,5 @@
+# Exclude third-party source directories and temporary folders from Docker context
+
 TTS-dev/
 so-vits-svc-4.1-Stable/
 Wav2Lip-master/
