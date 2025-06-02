@@ -8,7 +8,9 @@ def generate_video(input_image, input_audio, output_dir="assets/output"):
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, f"{uuid.uuid4()}.mp4")
 
-    sadtalker_path = "./SadTalker-main/inference.py"
+    sadtalker_path = os.path.join(
+        os.path.dirname(__file__), "..", "SadTalker-main", "inference.py"
+    )
     command = [
         "python",
         sadtalker_path,
