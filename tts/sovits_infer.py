@@ -2,6 +2,7 @@ import os
 import subprocess
 import uuid
 import shutil
+import sys
 from glob import glob
 
 
@@ -22,7 +23,7 @@ def convert_voice(input_wav: str, speaker: str, output_dir="assets/converted") -
     config_path = os.getenv("SOVITS_CONFIG", "logs/44k/config.json")
     svc_script = os.path.join(base_dir, "inference_main.py")
     command = [
-        "python",
+        sys.executable,
         svc_script,
         "-m",
         model_path,

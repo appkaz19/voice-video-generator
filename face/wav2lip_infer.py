@@ -1,6 +1,7 @@
 import os
 import subprocess
 import uuid
+import sys
 
 
 def enhance_lip_sync(video_path: str, audio_path: str, output_dir="assets/wav2lip") -> str:
@@ -11,7 +12,7 @@ def enhance_lip_sync(video_path: str, audio_path: str, output_dir="assets/wav2li
     checkpoint = os.getenv("WAV2LIP_CHECKPOINT", "checkpoints/wav2lip.pth")
     script = os.path.join(base_dir, "inference.py")
     command = [
-        "python",
+        sys.executable,
         script,
         "--checkpoint_path",
         checkpoint,
