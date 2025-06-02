@@ -83,7 +83,14 @@ uvicorn backend.api:app --reload
 Запустите сервисы, при необходимости указав переменные окружения:
 
 ```bash
-API_SECRET_KEY=<ключ> S3_BUCKET=<имя_бакета> docker compose up --build
+API_SECRET_KEY=<ключ> \
+S3_ACCESS_KEY_ID=<id> \
+S3_SECRET_ACCESS_KEY=<секрет> \
+S3_REGION=<регион> \
+S3_ENDPOINT=<endpoint> \
+S3_BUCKET=<имя_бакета> \
+S3_URL_BUCKET=<публичный_url> \
+docker compose up --build
 ```
 
 
@@ -94,7 +101,11 @@ API_SECRET_KEY=<ключ> S3_BUCKET=<имя_бакета> docker compose up --bu
 `S3_BUCKET`.
 
 * `API_SECRET_KEY` — защищает эндпоинты FastAPI. Клиент должен передавать значение в заголовке `X-API-Key`.
+* `S3_ACCESS_KEY_ID` и `S3_SECRET_ACCESS_KEY` — учетные данные для доступа к S3.
+* `S3_REGION` — регион S3.
+* `S3_ENDPOINT` — URL эндпоинта S3 (например, `https://storage.yandexcloud.kz`).
 * `S3_BUCKET` — имя бакета S3 для загрузки готовых видео. Если переменная не задана, файлы останутся в контейнере.
+* `S3_URL_BUCKET` — базовый публичный URL бакета для формирования ссылок на загруженные файлы.
 
 По умолчанию будут подняты контейнеры FastAPI, Celery и Redis.
 ## Запуск тестов
