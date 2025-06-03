@@ -34,7 +34,13 @@ def convert_voice(input_wav: str, speaker: str, output_dir="assets/converted") -
         "-s",
         speaker,
     ]
-    subprocess.run(command, check=True, cwd=base_dir)
+    try:
+        subprocess.run(command, check=True, cwd=base_dir)
+    except Exception as e:
+        raise RuntimeError(f"so-vits-svc failed: {e}") from e
+    finally:
+        if os.path.exists(temp_input):
+            os.remove(temp_input)
 
     candidates = sorted(glob(os.path.join(results_dir, f"{os.path.splitext(temp_name)[0]}_*")))
     if not candidates:
@@ -42,5 +48,4 @@ def convert_voice(input_wav: str, speaker: str, output_dir="assets/converted") -
     converted = candidates[-1]
     output_path = os.path.join(output_dir, os.path.basename(converted))
     shutil.move(converted, output_path)
-    os.remove(temp_input)
     return output_path
