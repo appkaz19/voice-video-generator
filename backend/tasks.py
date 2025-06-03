@@ -1,8 +1,4 @@
 from celery import Celery
-from tts.xtts_infer import generate_tts
-from tts.sovits_infer import convert_voice
-from face.sadtalker_infer import generate_video
-from face.wav2lip_infer import enhance_lip_sync
 
 import logging
 
@@ -36,6 +32,10 @@ s3_client = (
 )
 @celery_app.task
 def generate_video_task(image_path: str, text: str, language: str, speaker_audio: str | None = None):
+    from tts.xtts_infer import generate_tts
+    from tts.sovits_infer import convert_voice
+    from face.sadtalker_infer import generate_video
+    from face.wav2lip_infer import enhance_lip_sync
     tts_audio = generate_tts(text, speaker_audio, language)
 
     speaker = os.getenv("SOVITS_SPK", "default")

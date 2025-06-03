@@ -1,6 +1,26 @@
 import io
 import os
+import sys
+import types
 from fastapi.testclient import TestClient
+
+sys.modules.setdefault(
+    "tts.xtts_infer",
+    types.SimpleNamespace(generate_tts=lambda *a, **k: "tts.wav"),
+)
+sys.modules.setdefault(
+    "tts.sovits_infer",
+    types.SimpleNamespace(convert_voice=lambda *a, **k: "vc.wav"),
+)
+sys.modules.setdefault(
+    "face.sadtalker_infer",
+    types.SimpleNamespace(generate_video=lambda *a, **k: "video.mp4"),
+)
+sys.modules.setdefault(
+    "face.wav2lip_infer",
+    types.SimpleNamespace(enhance_lip_sync=lambda *a, **k: "video.mp4"),
+)
+
 import backend.api as api
 
 class DummyTask:
