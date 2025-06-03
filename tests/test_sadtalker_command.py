@@ -13,7 +13,8 @@ def test_command_uses_sys_executable(monkeypatch, tmp_path):
     monkeypatch.setattr(si.os.path, 'exists', lambda path: False)
     monkeypatch.setattr(si.os, 'replace', lambda src, dst: None)
 
-    si.generate_video('img.png', 'audio.wav', output_dir=str(tmp_path))
+    output_path = tmp_path / "out.mp4"
+    si.generate_video('img.png', 'audio.wav', output_path=str(output_path))
 
     expected_sadtalker = os.path.join(os.path.dirname(si.__file__), '..', 'SadTalker-main', 'inference.py')
     expected_command = [
