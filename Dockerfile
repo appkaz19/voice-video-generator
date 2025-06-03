@@ -17,6 +17,8 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+# Install the local TTS dependency
+RUN pip install ./TTS-dev
 
 # Download pretrained models
 RUN bash SadTalker-main/scripts/download_models.sh
