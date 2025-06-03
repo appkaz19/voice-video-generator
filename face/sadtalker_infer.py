@@ -1,6 +1,7 @@
 import os
 import subprocess
 import uuid
+import sys
 
 
 def generate_video(input_image, input_audio, output_dir="assets/output"):
@@ -12,7 +13,7 @@ def generate_video(input_image, input_audio, output_dir="assets/output"):
         os.path.dirname(__file__), "..", "SadTalker-main", "inference.py"
     )
     command = [
-        "python",
+        sys.executable,
         sadtalker_path,
         "--driven_audio",
         input_audio,
