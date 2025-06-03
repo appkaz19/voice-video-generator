@@ -3,6 +3,7 @@ from celery.result import AsyncResult
 from backend.tasks import generate_video_task, celery_app
 import uuid
 import os
+from werkzeug.utils import secure_filename
 
 SECRET_KEY = os.getenv("API_SECRET_KEY")
 
@@ -15,7 +16,8 @@ app = FastAPI()
 
 def _save_upload(upload: UploadFile, folder: str) -> str:
     os.makedirs(folder, exist_ok=True)
-    path = os.path.join(folder, f"{uuid.uuid4()}_{upload.filename}")
+    filename = secure_filename(os.path.basename(upload.filename))
+    path = os.path.join(folder, f"{uuid.uuid4()}_{filename}")
     with open(path, "wb") as f:
         f.write(upload.file.read())
     return path

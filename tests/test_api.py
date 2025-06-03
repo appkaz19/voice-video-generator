@@ -1,4 +1,5 @@
 import io
+import os
 from fastapi.testclient import TestClient
 import backend.api as api
 
@@ -31,3 +32,20 @@ def test_generate_and_result(monkeypatch, tmp_path):
     result_resp = client.get(f"/result/{task_id}")
     assert result_resp.status_code == 200
     assert result_resp.json() == {"status": "completed", "video_path": "/tmp/video.mp4"}
+
+
+def test_save_upload_secure_filename(tmp_path):
+    class DummyUpload:
+        def __init__(self, filename: str, data: bytes = b"data"):
+            self.filename = filename
+            self.file = io.BytesIO(data)
+
+    dangerous_name = "../evil.txt"
+    upload = DummyUpload(dangerous_name)
+    path = api._save_upload(upload, str(tmp_path))
+
+    assert path.startswith(str(tmp_path))
+    # ensure the basename doesn't include path traversal elements
+    assert ".." not in os.path.relpath(path, start=tmp_path)
+    with open(path, "rb") as f:
+        assert f.read() == b"data"
