@@ -61,5 +61,5 @@ unidecode>=1.3.2
 num2words
 spacy[ja]>=3
 
-TTS==0.22.0  # либо путь к локальной версии
+TTS==0.22.0
 httpx
