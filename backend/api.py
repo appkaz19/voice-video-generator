@@ -12,7 +12,17 @@ def verify_api_key(api_key: str | None):
     if SECRET_KEY and api_key != SECRET_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key")
 
-app = FastAPI()
+app = FastAPI(
+    title="Voice Video Generator API",
+    description="REST API для генерации видео с говорящим лицом. Swagger UI доступен по адресу /docs.",
+    version="1.0.0",
+)
+
+
+@app.get("/")
+async def read_root():
+    """Простой корневой эндпоинт с ссылкой на документацию."""
+    return {"message": "Добро пожаловать! Документация доступна по адресу /docs"}
 
 def _save_upload(upload: UploadFile, folder: str) -> str:
     os.makedirs(folder, exist_ok=True)

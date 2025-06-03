@@ -60,6 +60,8 @@ celery -A backend.tasks worker --loglevel=info
 uvicorn backend.api:app --reload
 ```
 
+После запуска сервера откройте `http://localhost:8000/docs`, чтобы увидеть интерактивную документацию Swagger.
+
 ## Эндпоинты API
 
 Доступные маршруты описаны в Swagger UI по адресу `/docs`.
