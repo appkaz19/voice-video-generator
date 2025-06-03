@@ -1,9 +1,10 @@
 from TTS.api import TTS
 import os
-import uuid
+
 
 # Модель инициализируется лениво при первом вызове generate_tts
 tts_model = None
+
 
 
 def generate_tts(text, speaker_wav_path, language, output_dir="assets"):
@@ -24,4 +25,12 @@ def generate_tts(text, speaker_wav_path, language, output_dir="assets"):
         language=language,
         file_path=output_path,
     )
+
+def generate_tts(text, speaker_wav_path, language, output_path="assets/tts.wav"):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    tts.tts_to_file(text=text,
+                    speaker_wav=speaker_wav_path,
+                    language=language,
+                    file_path=output_path)
+
     return output_path
