@@ -13,7 +13,7 @@ import os
 
 
 BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
-BACKEND_URL = os.getenv("CELERY_BACKEND_URL", "redis://localhost:6379/0")
+BACKEND_URL = os.getenv("CELERY_BACKEND_URL", "redis://localhost:6379/1")
 
 celery_app = Celery("voice_video_tasks", broker=BROKER_URL, backend=BACKEND_URL)
 
