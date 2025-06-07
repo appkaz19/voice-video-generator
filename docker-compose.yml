@@ -8,6 +8,10 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_BACKEND_URL=redis://redis:6379/1
+      - TTS_SERVICE_URL=http://tts-service:8001/generate
+      - SOVITS_SERVICE_URL=http://vc-service:8002/convert
+      - SADTALKER_SERVICE_URL=http://sadtalker-service:8003/animate
+      - WAV2LIP_SERVICE_URL=http://wav2lip-service:8004/enhance
       - API_SECRET_KEY=${API_SECRET_KEY}
       - S3_BUCKET=${S3_BUCKET}
       - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
@@ -28,6 +32,10 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_BACKEND_URL=redis://redis:6379/1
+      - TTS_SERVICE_URL=http://tts-service:8001/generate
+      - SOVITS_SERVICE_URL=http://vc-service:8002/convert
+      - SADTALKER_SERVICE_URL=http://sadtalker-service:8003/animate
+      - WAV2LIP_SERVICE_URL=http://wav2lip-service:8004/enhance
       - API_SECRET_KEY=${API_SECRET_KEY}
       - S3_BUCKET=${S3_BUCKET}
       - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
@@ -40,3 +48,43 @@ services:
       - ./assets:/app/assets
     depends_on:
       - redis
+
+  tts-service:
+    build:
+      context: .
+      dockerfile: services/tts_service/Dockerfile
+    volumes:
+      - ./models:/app/models
+      - ./assets:/app/assets
+    ports:
+      - "8001:8001"
+
+  vc-service:
+    build:
+      context: .
+      dockerfile: services/vc_service/Dockerfile
+    volumes:
+      - ./models:/app/models
+      - ./assets:/app/assets
+    ports:
+      - "8002:8002"
+
+  sadtalker-service:
+    build:
+      context: .
+      dockerfile: services/sadtalker_service/Dockerfile
+    volumes:
+      - ./models:/app/models
+      - ./assets:/app/assets
+    ports:
+      - "8003:8003"
+
+  wav2lip-service:
+    build:
+      context: .
+      dockerfile: services/wav2lip_service/Dockerfile
+    volumes:
+      - ./models:/app/models
+      - ./assets:/app/assets
+    ports:
+      - "8004:8004"
