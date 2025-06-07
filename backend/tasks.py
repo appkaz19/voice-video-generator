@@ -40,15 +40,20 @@ WAV2LIP_SERVICE_URL = os.getenv("WAV2LIP_SERVICE_URL")
 
 def _generate_tts(text: str, speaker_audio: str | None, language: str) -> str:
     if TTS_SERVICE_URL:
-        files = {"speaker_audio": open(speaker_audio, "rb")} if speaker_audio else None
-        resp = httpx.post(
-            TTS_SERVICE_URL,
-            data={"text": text, "language": language},
-            files=files,
-        )
+        data = {"text": text, "language": language}
+        if speaker_audio:
+            with open(speaker_audio, "rb") as f:
+                resp = httpx.post(
+                    TTS_SERVICE_URL,
+                    data=data,
+                    files={"speaker_audio": f},
+                )
+        else:
+            resp = httpx.post(
+                TTS_SERVICE_URL,
+                data=data,
+            )
         resp.raise_for_status()
-        if files:
-            files["speaker_audio"].close()
         return resp.json()["audio_path"]
     from tts.xtts_infer import generate_tts
     return generate_tts(text, speaker_audio, language)
